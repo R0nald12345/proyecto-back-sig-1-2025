@@ -1,7 +1,9 @@
 import { Client } from 'src/modules/client/entities/client.entity';
+import { Delivery } from 'src/modules/delivery/entities/delivery.entity';
 import { DetailsOrder } from 'src/modules/details-order/entities/details-order.entity';
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToOne, OneToMany, JoinColumn } from 'typeorm';
 // import { Client } from './client.entity';
+// import { Delivery } from './delivery.entity';
 // import { DetailsOrder } from './details-order.entity';
 
 @Entity()
@@ -9,13 +11,13 @@ export class Order {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => Client, (client) => client.orders)
-  client: Client;
+  @Column({ name: 'cliente_id' })
+  clienteId: number;
 
-  @Column()
+  @Column({ name: 'date_order' })
   dateOrder: Date;
 
-  @Column('float')
+  @Column()
   total: number;
 
   @Column()
@@ -24,18 +26,27 @@ export class Order {
   @Column()
   ubication: string;
 
-  @Column()
+  @Column({ name: 'estimated_delivery_date' })
   estimatedDeliveryDate: Date;
 
-  @Column('float')
+  @Column({ type: 'float' })
   latitude: number;
 
-  @Column('float')
+  @Column()
   length: number;
 
   @Column()
   paid: boolean;
 
-  @OneToMany(() => DetailsOrder, (detailsOrder) => detailsOrder.order)
-  detailsOrders: DetailsOrder[];
+  @ManyToOne(() => Client, client => client.orders)
+  @JoinColumn({ name: 'cliente_id' })
+  client: Client;
+
+  @OneToOne(() => Delivery, delivery => delivery.order)
+  @JoinColumn()
+  delivery: Delivery;
+
+  @ManyToOne(() => DetailsOrder, detailsOrder => detailsOrder.orders)
+  @JoinColumn({ name: 'details_order_id' })
+  detailsOrder: DetailsOrder;
 }

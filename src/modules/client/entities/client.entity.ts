@@ -2,6 +2,7 @@ import { Order } from 'src/modules/order/entities/order.entity';
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 // import { Order } from './order.entity';
 
+
 @Entity()
 export class Client {
   @PrimaryGeneratedColumn()
@@ -10,7 +11,7 @@ export class Client {
   @Column()
   name: string;
 
-  @Column()
+  @Column({ name: 'last_name' })
   lastName: string;
 
   @Column()
@@ -22,9 +23,9 @@ export class Client {
   @Column()
   address: string;
 
-  @Column()
+  @Column({ name: 'date_register' })
   dateRegister: Date;
 
-  @OneToMany(() => Order, (order) => order.client)
+  @OneToMany(() => Order, order => order.client)
   orders: Order[];
 }

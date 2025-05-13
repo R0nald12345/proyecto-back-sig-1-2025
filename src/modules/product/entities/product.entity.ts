@@ -2,6 +2,7 @@ import { DetailsOrder } from 'src/modules/details-order/entities/details-order.e
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 // import { DetailsOrder } from './details-order.entity';
 
+
 @Entity()
 export class Product {
   @PrimaryGeneratedColumn()
@@ -28,12 +29,12 @@ export class Product {
   @Column()
   size: string;
 
-  @Column('float')
+  @Column({ type: 'decimal', precision: 10, scale: 2 })
   price: number;
 
   @Column()
   description: string;
 
-  @OneToMany(() => DetailsOrder, (detailsOrder) => detailsOrder.product)
-  detailsOrders: DetailsOrder[];
+  @OneToMany(() => DetailsOrder, detailsOrder => detailsOrder.product)
+  details: DetailsOrder[];
 }

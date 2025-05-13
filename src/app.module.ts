@@ -9,6 +9,9 @@ import { ClientModule } from './modules/client/client.module';
 import { ProductModule } from './modules/product/product.module';
 import { DetailsOrderModule } from './modules/details-order/details-order.module';
 import { OrderModule } from './modules/order/order.module';
+import { DealerModule } from './modules/dealer/dealer.module';
+import { RouteModule } from './modules/route/route.module';
+import { DeliveryModule } from './modules/delivery/delivery.module';
 
 @Module({
   imports: [
@@ -26,6 +29,9 @@ import { OrderModule } from './modules/order/order.module';
     ProductModule,
     DetailsOrderModule,
     OrderModule,
+    DealerModule,
+    RouteModule,
+    DeliveryModule,
  
 
   ],
