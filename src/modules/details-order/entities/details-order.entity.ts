@@ -13,13 +13,14 @@ export class DetailsOrder {
   @Column()
   amount: number;
 
-  @Column({ name: 'unit_price' })
+  @Column({ type: 'decimal', precision: 10, scale: 2 })
   unitPrice: number;
+
 
   @Column({ name: 'delivery_address' })
   deliveryAddress: string;
 
-  @Column({ name: 'sub_total' })
+   @Column({ type: 'decimal', precision: 10, scale: 2 })
   subTotal: number;
 
   @OneToMany(() => Order, order => order.detailsOrder)

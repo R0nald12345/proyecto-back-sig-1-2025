@@ -36,5 +36,5 @@ export class Product {
   description: string;
 
   @OneToMany(() => DetailsOrder, detailsOrder => detailsOrder.product)
-  details: DetailsOrder[];
+  detailsOrder: DetailsOrder[];
 }

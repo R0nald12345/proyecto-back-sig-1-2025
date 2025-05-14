@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
 import { DealerService } from './dealer.service';
 import { CreateDealerDto } from './dto/create-dealer.dto';
 import { UpdateDealerDto } from './dto/update-dealer.dto';
@@ -18,17 +18,20 @@ export class DealerController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.dealerService.findOne(+id);
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.dealerService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateDealerDto: UpdateDealerDto) {
-    return this.dealerService.update(+id, updateDealerDto);
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateDealerDto: UpdateDealerDto,
+  ) {
+    return this.dealerService.update(id, updateDealerDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.dealerService.remove(+id);
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.dealerService.remove(id);
   }
 }
