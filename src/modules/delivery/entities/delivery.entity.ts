@@ -34,7 +34,7 @@ export class Delivery {
   @Column({ nullable: true })
   sequence: number;
 
-  @OneToOne(() => Route, route => route.deliveries)
+  @OneToOne(() => Route, route => route.delivery)
   route: Route;
 
   @OneToOne(() => Order, order => order.delivery)
