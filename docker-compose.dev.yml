@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: sig-api
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - DATABASE_HOST=dpg-d0hodcruibrs73dikbmg-a.oregon-postgres.render.com
+      - DATABASE_PORT=5432
+      - DATABASE_USER=root
+      - DATABASE_PASS=hIqmTE9rjgLdPccRc5XKRlqQBs3Z5kTV
+      - DATABASE_NAME=sig_h2kc
+    networks:
+      - sig-network
+
+networks:
+  sig-network:
+    driver: bridge
