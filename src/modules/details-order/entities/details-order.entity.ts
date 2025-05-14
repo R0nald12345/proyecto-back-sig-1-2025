@@ -23,7 +23,7 @@ export class DetailsOrder {
    @Column({ type: 'decimal', precision: 10, scale: 2 })
   subTotal: number;
 
-  @OneToMany(() => Order, order => order.detailsOrder)
+  @OneToMany(() => Order, order => order.details)
   orders: Order[];
 
   @ManyToOne(() => Product)

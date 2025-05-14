@@ -1,34 +1,35 @@
-import { Dealer } from 'src/modules/dealer/entities/dealer.entity';
-import { Delivery } from 'src/modules/delivery/entities/delivery.entity';
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, JoinColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToOne, ManyToOne, JoinColumn } from 'typeorm';
+import { Delivery } from '../../delivery/entities/delivery.entity';
+import { Dealer } from '../../dealer/entities/dealer.entity';
 
 @Entity()
 export class Route {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ type: 'date' })
   date: Date;
 
-  @Column({ name: 'hour_end' })
-  hourEnd: string;
+  @Column({ type: 'time' })
+  hour_end: string;
 
-  @Column({ name: 'delivery_quantity' })
-  deliveryQuantity: number;
+  @Column({ type: 'int' })
+  delivery_quantity: number;
 
-  @Column({ name: 'hour_start' })
-  hourStart: string;
+  @Column({ type: 'time' })
+  hour_start: string;
 
-  @Column({ name: 'total_distance' })
-  totalDistance: number;
+  @Column({ type: 'decimal', precision: 10, scale: 2 })
+  total_distance: number;
 
-  @Column({ type: 'text' })
+  @Column({ type: 'text', nullable: true })
   polyline: string;
 
   @ManyToOne(() => Dealer, dealer => dealer.routes)
   @JoinColumn()
   dealer: Dealer;
 
-  @OneToMany(() => Delivery, delivery => delivery.route)
-  deliveries: Delivery[];
+  @OneToOne(() => Delivery, delivery => delivery.route)
+  @JoinColumn()
+  delivery: Delivery;
 }
