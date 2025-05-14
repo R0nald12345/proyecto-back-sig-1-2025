@@ -1,10 +1,7 @@
-import { Client } from 'src/modules/client/entities/client.entity';
-import { Delivery } from 'src/modules/delivery/entities/delivery.entity';
-import { DetailsOrder } from 'src/modules/details-order/entities/details-order.entity';
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToOne, OneToMany, JoinColumn } from 'typeorm';
-// import { Client } from './client.entity';
-// import { Delivery } from './delivery.entity';
-// import { DetailsOrder } from './details-order.entity';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany, JoinColumn, OneToOne } from 'typeorm';
+import { Client } from '../../client/entities/client.entity';
+import { DetailsOrder } from '../../details-order/entities/details-order.entity';
+import { Delivery } from '../../delivery/entities/delivery.entity';
 
 @Entity()
 export class Order {
@@ -12,12 +9,12 @@ export class Order {
   id: number;
 
   @Column({ name: 'cliente_id' })
-  clienteId: number;
+  cliente_id: number;
 
-  @Column({ name: 'date_order' })
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   dateOrder: Date;
 
-  @Column()
+  @Column({ type: 'decimal', precision: 10, scale: 2 })
   total: number;
 
   @Column()
@@ -26,16 +23,16 @@ export class Order {
   @Column()
   ubication: string;
 
-  @Column({ name: 'estimated_delivery_date' })
+  @Column({ type: 'timestamp', nullable: true })
   estimatedDeliveryDate: Date;
 
-  @Column({ type: 'float' })
+  @Column({ type: 'decimal', precision: 10, scale: 6, nullable: true })
   latitude: number;
 
-  @Column()
-  length: number;
+  @Column({ type: 'decimal', precision: 10, scale: 6, nullable: true })
+  longitude: number;
 
-  @Column()
+  @Column({ type: 'boolean', default: false })
   paid: boolean;
 
   @ManyToOne(() => Client, client => client.orders)
@@ -46,7 +43,6 @@ export class Order {
   @JoinColumn()
   delivery: Delivery;
 
-  @ManyToOne(() => DetailsOrder, detailsOrder => detailsOrder.orders)
-  @JoinColumn({ name: 'details_order_id' })
-  detailsOrder: DetailsOrder;
-}
+  @OneToMany(() => DetailsOrder, detailsOrder => detailsOrder.orders)
+  details: DetailsOrder[];
+} 
