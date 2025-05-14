@@ -1,7 +1,5 @@
-import { Order } from 'src/modules/order/entities/order.entity';
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-// import { Order } from './order.entity';
-
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Order } from '../../order/entities/order.entity';
 
 @Entity()
 export class Client {
@@ -11,7 +9,7 @@ export class Client {
   @Column()
   name: string;
 
-  @Column({ name: 'last_name' })
+  @Column()
   lastName: string;
 
   @Column()
@@ -23,7 +21,7 @@ export class Client {
   @Column()
   address: string;
 
-  @Column({ name: 'date_register' })
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   dateRegister: Date;
 
   @OneToMany(() => Order, order => order.client)
