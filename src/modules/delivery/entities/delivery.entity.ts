@@ -1,43 +1,40 @@
-import { Order } from 'src/modules/order/entities/order.entity';
-import { Route } from 'src/modules/route/entities/route.entity';
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToOne, JoinColumn } from 'typeorm';
-// import { Route } from './route.entity';
-// import { Order } from './order.entity';
+import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn } from 'typeorm';
+import { Route } from '../../route/entities/route.entity';
+import { Order } from '../../order/entities/order.entity';
 
 @Entity()
 export class Delivery {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ nullable: true })
   comment: string;
 
-  @Column({ name: 'order_delivery' })
-  orderDelivery: number;
-
   @Column()
+  order_delivery: number;
+
+  @Column({ default: 'pendiente' })
   state: string;
 
-  @Column({ name: 'location_delivery' })
-  locationDelivery: string;
+  @Column({ nullable: true })
+  location_delivery: string;
 
-  @Column({ name: 'actual_delivery_date' })
-  actualDeliveryDate: Date;
+  @Column({ type: 'timestamp', nullable: true })
+  actual_delivery_date: Date;
 
-  @Column({ name: 'payment_type' })
-  paymentType: string;
+  @Column({ nullable: true })
+  payment_type: string;
 
-  @Column({ type: 'float' })
+  @Column({ type: 'decimal', precision: 10, scale: 6, nullable: true })
   latitude: number;
 
-  @Column({ type: 'float' })
+  @Column({ type: 'decimal', precision: 10, scale: 6, nullable: true })
   longitude: number;
 
-  @Column()
+  @Column({ nullable: true })
   sequence: number;
 
-  @ManyToOne(() => Route, route => route.deliveries)
-  @JoinColumn()
+  @OneToOne(() => Route, route => route.deliveries)
   route: Route;
 
   @OneToOne(() => Order, order => order.delivery)
